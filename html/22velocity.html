@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>自定义事件</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+</head>
+<body>
+		
+	<div id="velocityID">
+	  <button @click="show = !show">
+	    Toggle
+	  </button>
+	  <transition
+	    v-on:before-enter="beforeEnter"
+	    v-on:enter="enter"
+	    v-on:leave="leave"
+	    v-bind:css="false"
+	  >
+	    <p v-if="show">
+	      Demo
+	    </p>
+	  </transition>
+	</div>
+	
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/velocity.js"></script>
+<script>	
+
+	/*
+		velocity.js的用法
+		$element.velocity({
+		    width: "500px",        // 动画属性 宽度到 "500px" 的动画
+		    property2: value2      // 属性示例
+		}, {
+		    //Velocity 动画配置项的默认值
+		    duration: 400,         // 动画执行时间
+		    easing: "swing",       // 缓动效果
+		    queue: "",             // 队列
+		    begin: undefined,      // 动画开始时的回调函数
+		    progress: undefined,   // 动画执行中的回调函数（该函数会随着动画执行被不断触发）
+		    complete: undefined,   // 动画结束时的回调函数
+		    display: undefined,    // 动画结束时设置元素的 css display 属性
+		    visibility: undefined, // 动画结束时设置元素的 css visibility 属性
+		    loop: false,           // 循环
+		    delay: false,          // 延迟
+		    mobileHA: true         // 移动端硬件加速（默认开启）
+		});
+
+	 */ 
+
+
+	var vm1 = new Vue({
+	  el: '#velocityID',
+	  data: {
+	    show: false
+	  },
+	  methods: {
+	    beforeEnter: function (el) {
+	      el.style.opacity = 0
+	      el.style.transformOrigin = 'left'
+	    },
+	    enter: function (el, done) {
+	      Velocity(el, { opacity: 1, fontSize: '1.4em' }, { duration: 300 })
+	      Velocity(el, { fontSize: '1em' }, { complete: done })
+	    },
+	    leave: function (el, done) {
+	      Velocity(el, { translateX: '15px', rotateZ: '50deg' }, { duration: 600 })
+	      Velocity(el, { rotateZ: '100deg' }, { loop: 2 })
+	      Velocity(el, {
+	        rotateZ: '45deg',
+	        translateY: '30px',
+	        translateX: '30px',
+	        opacity: 0
+	      }, { complete: done })
+	    }
+	  }
+	})
+
+
+</script>
+</html>

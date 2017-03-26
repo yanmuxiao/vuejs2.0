@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>列表渲染</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+</head>
+<body>
+		
+	<ul id="list01">
+	  <li v-for="item in items">
+	  		{{ item.message }}
+	  </li>
+	</ul>
+
+
+	<ul id="list02">
+	  <li v-for="(item, index) in items">
+	  		{{ parentMessage }} => {{ index }} => {{ item.msg }}
+	  </li>
+	</ul>
+
+
+	<ul id="list03">
+	  <template v-for="item in items">
+	    <li>{{ item.message }}</li>
+	    <li class="divider"></li>
+	  </template>
+
+	  	<div>
+		  <span v-for="n in 10">{{ n }}</span>
+		</div>
+
+
+	</ul>
+
+
+	<!-- 在遍历对象时，是按 Object.keys() 的结果遍历，但是不能保证它的结果在不同的 JavaScript 引擎下是一致的。 -->
+	<div id="list04">
+		<div v-for="(value, key, index) in object">
+			{{index}}.  {{ key }} : {{ value }}
+		</div>
+	</div>
+
+
+	
+	
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script>	
+
+	var vm1 = new Vue({
+		el : '#list01',
+		data : {
+			items : [
+				{ message : 'PHP'},
+				{ message : 'Java'},
+				{ message : 'Javascript'},
+				{ message : 'CSS'}
+			]
+		}
+	})
+
+	var vm2 = new Vue({
+		el : '#list02',
+		data : {
+			parentMessage : 'Parent',
+			items : [
+				{ msg : 'PHP'},
+				{ msg : 'Java'},
+				{ msg : 'Javascript'},
+				{ msg : 'CSS'}
+			]
+		}
+	});
+
+	var vm3 = new Vue({
+		el : '#list03',
+		data : {
+			items : [
+				{ message : 'PHP'},
+				{ message : 'Java'},
+				{ message : 'Javascript'},
+				{ message : 'CSS'}
+			]
+		}
+	})
+
+
+	// 在遍历对象时，是按 Object.keys() 的结果遍历，但是不能保证它的结果在不同的 JavaScript 引擎下是一致的。
+	var vm4 = new Vue({
+		el : '#list04',
+		data : {
+			object : {
+				firsname : 'Json',
+				lastname : 'Don',
+				age : 30
+			}
+		}
+	})
+
+
+</script>
+</html>

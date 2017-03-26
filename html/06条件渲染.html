@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>条件渲染</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+</head>
+<body>
+	<div id="condition">
+		<!-- {{#if ok}}
+			<h1>Yes</h1>
+		{{/if}} -->
+		<template v-if="ok">
+		  <h1>Title</h1>
+		  <p>Paragraph 1</p>
+		  <p>Paragraph 2</p>
+		</template>
+
+		<div v-if="Math.random() > 0.5">
+		  Sorry
+		</div>
+		<div v-else>
+		  Not sorry
+		</div>
+
+		<div v-if="type === 'A'">
+		  A
+		</div>
+		<div v-else-if="type === 'B'">
+		  B
+		</div>
+		<div v-else-if="type === 'C'">
+		  C
+		</div>
+		<div v-else>
+		  Not A/B/C
+		</div>
+
+
+		<template v-if="loginType === 'username'">
+		  <label>Username</label>
+		  <input placeholder="Enter your username" key="username-input">
+		</template>
+		<template v-else>
+		  <label>Email</label>
+		  <input placeholder="Enter your email address" key="email-input">
+		</template>
+		<button v-on:click="toogleLoginType">Toogle login type</button>
+
+		
+
+		<h1 v-show="ok">v-show</h1>
+
+	
+	</div>
+	
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script>	
+
+	var random = Math.floor(Math.random() * 3);
+	var arr = ['A', 'B', 'C'];
+	var userName = ['username',1,2]
+
+
+	var vm1 = new Vue({
+		el : '#condition',
+		data : {
+			ok : true,
+			type : arr[random],
+			loginType : userName[random]
+		},
+		methods: {
+			toogleLoginType : function(){
+				if(this.loginType == 'username'){
+					this.loginType = 1;
+				}else{
+					this.loginType = 'username';
+				}
+			}
+		}
+	})
+
+
+</script>
+</html>

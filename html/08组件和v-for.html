@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>组件和v-for</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+</head>
+<body>
+	
+	<div id="todo-list-example">
+		<input v-model="newTodoText" v-on:keyup.enter="addNewTodo" placeholder="Add a todo">
+		<ul>
+			<li is="todo-item" v-for="(todo, index) in todos" v-bind:title="todo" v-on:remove="todos.splice(index, 1)"></li>
+		</ul>
+	</div>
+
+
+	<!-- vm2 -->
+	<!-- v-for的优先级比v-if高  -->
+	<ul id="vFor-vIf">
+		<li v-for="todo in todos" v-if="!todo.isComplete">
+		  {{ todo }}
+		</li>
+	</ul>
+
+
+	
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script>	
+
+	/*  template: '\
+		    <li>\
+		      {{ title }}\
+		      <button v-on:click="$emit(\'remove\')">X</button>\
+		    </li>\
+		',
+	*/
+	Vue.component('todo-item', {
+		template: '<li>{{title}}<button v-on:click=' +'"$emit(' + "'remove')" + '">X</button></li>',
+		props: ['title']
+	});
+
+
+	new Vue({
+		el: '#todo-list-example',
+		data: {
+			newTodoText: '',
+			todos: [
+				'Do the dishes',
+				'Take otu the trash',
+				'Mow the lawn'
+			]
+		},
+		methods: {
+			addNewTodo: function(){
+				this.todos.push(this.newTodoText);
+				this.newTodoText = '';
+			}
+		}
+	})
+
+
+
+	// v-for的优先级比v-if高 
+	var vm2 = new Vue({
+		el: '#vFor-vIf',
+		data: {
+			todos: [
+				{ msg: 'PHP', isComplete: true},
+				{ msg: 'CSS', isComplete: false}
+			]
+		}
+	})
+
+
+
+</script>
+</html>

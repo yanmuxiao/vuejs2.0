@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>过渡的效果</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="stylesheet" type="text/css" href="../css/animate.css">
+<style type="text/css">
+	
+	.fade-enter-active, .fade-leave-active {
+	  transition: opacity .3s ease;
+	}
+	.fade-enter, .fade-leave-active {
+	  opacity: 0;
+	}
+
+</style>
+</head>
+<body>
+	<!-- 初始渲染的过渡 -->
+	<div id="transitionID">
+		<button @click="show = !show">
+		   Toggle
+		</button>
+		<transition
+		  appear
+		  appear-class="custom-appear-class"
+		  appear-active-class="custom-appear-active-class"
+
+		  name="custom-classes-transition"
+		  enter-active-class="animated tada"
+		  leave-active-class="animated bounceOutRight"
+
+		  v-on:before-appear="customBeforeAppearHook"
+		  v-on:appear="customAppearHook"
+		  v-on:after-appear="customAfterAppearHook"
+		  
+
+		>
+		  <p v-if="show">Demo</p>
+		</transition>
+	</div>
+
+	<div id="moreTransitonID">
+		<transition>
+		  <table v-if="items.length > 0">
+		    <tr is="component-tr" v-for="item in items" :message="item"></tr>
+		  </table>
+		  <p v-else>Sorry, no items found.</p>
+		</transition>
+
+		<br>
+		<br>
+		<button  @click="isEditing = !isEditing">change</button>
+		<br>
+		<br>
+		<transition mode="out-in">
+		  <button v-if="isEditing" @click="num += 1">
+		    Save
+		  </button>
+		  <button v-else @click="num -= 1">
+		    Edit
+		  </button>
+		</transition>
+
+
+		
+		<br>
+		<br>
+		<transition>
+		  <button v-bind:key="isEditing" >
+		    {{ isEditing ? 'Save' : 'Edit' }}
+		  </button>
+		</transition>
+
+		<br>
+		<br>
+		<!-- <transition>
+		  <button v-if="docState === 'saved'" key="saved">
+		    Edit
+		  </button>
+		  <button v-if="docState === 'edited'" key="edited">
+		    Save
+		  </button>
+		  <button v-if="docState === 'editing'" key="editing">
+		    Cancel
+		  </button>
+		</transition> -->
+		<transition>
+			<button :key="docState">
+				{{text}}
+			</button>
+		</transition>
+
+	</div>	
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script>	
+
+	var vm1 = new Vue({
+		el: '#transitionID',
+		data: {
+			show: true
+		},
+		methods: {
+			customBeforeAppearHook: function(){
+				console.log('BeforeAppear');
+			},
+			customAppearHook: function(){
+				console.log('Appear');
+			},
+			customAfterAppearHook: function(){
+				console.log('AfterAppear');
+			}
+		}
+	});
+
+	Vue.component('component-tr', {
+		template: '<tr><td>{{message.num}}</td><td>{{message.name}}</td><td>{{message.operate}}</td></tr>',
+		props: ['message']
+	})
+	var arr = [true, false]
+	var vm2 = new Vue({
+		el: '#moreTransitonID',
+		data: {
+			items: [
+				{ num: 1, name: 'name', operate: 'operate' },
+				{ num: 2, name: 'name', operate: 'operate' },
+				{ num: 3, name: 'name', operate: 'operate' },
+				{ num: 4, name: 'name', operate: 'operate' },
+				{ num: 5, name: 'name', operate: 'operate' }
+			],
+			isEditing: false,
+			num: 0,
+			docState: 'saved'
+		},
+		computed: {
+			text: function(){
+				switch(this.docState) {
+					case 'saved': return 'Edit'
+					case 'edited': return 'Save'
+					case 'editing': return 'Cancel'
+				}
+			}
+		}
+	})
+
+</script>
+</html>

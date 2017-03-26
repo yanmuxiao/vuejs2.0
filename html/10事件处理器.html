@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>事件处理器</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+</head>
+<body>
+	
+	<!-- 监听事件 -->
+	<div id="example-1">
+	  <button v-on:click="counter += 1">增加 1</button>
+	  <p>这个按钮被点击了 {{ counter }} 次。</p>
+	</div>
+	
+	<!-- 方法处理器 -->
+	<div id="example-2">
+	  <button v-on:click="greet">greet</button>
+	</div>
+
+
+	<div id="example-3">
+	  <button v-on:click="say('hi')">Say hi</button>
+	  <button v-on:click="say('what')">Say what</button>
+		
+	  <!-- 特殊变量$event有什么用？ -->
+	  <button v-on:click="warn('Form cannot be submitted yet.', $event)">Submit</button>
+	</div>
+	
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script>	
+
+	// 监听事件
+	var vm1 = new Vue({
+		el: '#example-1',
+		data: {
+			counter: 0
+		}
+	});
+
+
+	// 方法处理器
+	var vm2 = new Vue({
+		el: '#example-2',
+		data: {
+			name: 'vue.js'
+		},
+		methods: {
+			greet: function(event){
+				alert('Hello ' + this.name + '!');
+				if(event){
+					alert(event.target.tagName)
+				}
+			}
+		}
+	})
+	// 也可以用 JavaScript 直接调用方法
+	// vm2.greet();
+
+
+	var vm3 = new Vue({
+	  el: '#example-3',
+	  methods: {
+	    say: function (message) {
+	      alert(message)
+	    },
+	    warn: function(message, event){//特殊变量$event有什么用？
+	    	if (event) event.preventDefault()
+    		alert(message)
+	    }
+	  }
+	});
+
+</script>
+</html>

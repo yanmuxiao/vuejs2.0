@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>事件修饰符</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+</head>
+<body>
+	
+	<!-- methods只有纯粹的数据逻辑，而不是去处理 DOM 事件细节。 -->
+
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script>	
+
+	// methods 只有纯粹的数据逻辑，而不是去处理 DOM 事件细节。
+	/*
+	为了解决这个问题， Vue.js 为 v-on 提供了 事件修饰符。通过由点(.)表示的指令后缀来调用修饰符。
+	.stop
+	.prevent
+	.capture
+	.self
+	.once
+
+	<!-- 阻止单击事件冒泡 -->
+	<a v-on:click.stop="doThis"></a>
+	<!-- 提交事件不再重载页面 -->
+	<form v-on:submit.prevent="onSubmit"></form>
+	<!-- 修饰符可以串联  -->
+	<a v-on:click.stop.prevent="doThat"></a>
+	<!-- 只有修饰符 -->
+	<form v-on:submit.prevent></form>
+	<!-- 添加事件侦听器时使用事件捕获模式 -->
+	<div v-on:click.capture="doThis">...</div>
+	<!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 -->
+	<div v-on:click.self="doThat">...</div>
+
+	2.1.4 新增
+	<!-- 点击事件将只会触发一次 -->
+	<a v-on:click.once="doThis"></a>
+	
+	 */ 
+
+
+
+
+
+
+
+</script>
+</html>

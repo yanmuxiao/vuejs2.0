@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Class与Style绑定</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+</head>
+<body>
+
+
+	<div id="classStyle">
+
+		<div v-bind:class="{ active: isActive }">classStyle1</div>
+
+		<div class="static"
+		     v-bind:class="{ active: isActive, 'text-danger': hasError }">classStyle2
+		</div>
+
+		<div v-bind:class="classObject1">classObject1</div>
+
+		<div v-bind:class="classObject2">classObject2</div>
+
+		<div v-bind:class="classObject3">classObject3</div>
+
+	</div>	
+
+
+
+	<div id="arrayStyle">
+
+		<div v-bind:class="[isActive ? activeClass : '', errorClass]">arrayStyle1</div>
+		
+		<!-- 数组语法中使用对象语法 -->
+		<div v-bind:class="[{ active: isActive }, errorClass]">arrayStyle2</div>
+
+	</div>
+	
+
+
+	<!-- 组件上的class -->
+	<div id="componentClass">
+		<my-component class="baz boo"></my-component>
+	</div>
+
+
+
+
+	<!-- 绑定内敛样式 -->
+	<div id="innerStyle">
+		<div v-bind:style="{color: activeColor, fontSize: fontSize }">innerStyle</div>
+		<div v-bind:style="innerStyleObj">innerStyle</div>
+	</div>
+
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript">
+
+	// 对象语法
+	var vm1 = new Vue({
+		el: '#classStyle',
+		data: {
+			isActive : true,
+			hasError  : true,
+			error: null,
+			classObject1 : 'classObject1',
+			classObject2 : {
+				active : false,
+				'text-danger' : true
+			}
+		},
+		computed: {
+		  classObject3: function () {
+		    return {
+		      active: this.isActive && !this.error,
+		      'text-danger': this.error && this.error.type === 'fatal',
+		    }
+		  }
+		}
+	})
+
+
+	// 数组语法
+	var vm2 = new Vue({
+		el : '#arrayStyle',
+		data : {
+			activeClass: 'active',
+  			errorClass: 'text-danger',
+
+  			isActive : true
+		}
+	});
+
+
+	// 组件上的class
+	Vue.component('my-component', {
+	  	template: '<p class="foo bar">Hi</p>'
+	})
+	var vmComponent = new Vue({
+		el : '#componentClass',
+		data : {
+			
+		}
+	});
+
+
+
+
+	var innerStyle = new Vue({
+		el : '#innerStyle',
+		data : {
+			activeColor : 'red',
+			fontSize : '18px',
+			innerStyleObj : {
+				color : 'blue',
+				fontSize : '22px'
+			}
+		}
+	});
+
+
+
+
+</script>
+</html>

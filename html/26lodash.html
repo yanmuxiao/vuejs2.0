@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>lodash.js</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="stylesheet" type="text/css" href="../css/animate.css">
+<style type="text/css">
+	/*vm1*/
+	.flip-list-move {
+	  transition: transform 1s;
+	}
+
+
+	/*vm2*/
+	.list-complete-item {
+	  transition: all 1s;
+	  display: inline-block;
+	  margin-right: 10px;
+	}
+	.list-complete-enter, .list-complete-leave-active {
+	  opacity: 0;
+	  transform: translateY(30px);
+	}
+	.list-complete-leave-active {
+	  position: absolute;
+	}
+
+
+
+</style>
+</head>
+<body>
+		
+	<div id="flip-list-demo" class="demo">
+	  <button v-on:click="shuffle">Shuffle</button>
+	  <transition-group name="flip-list" tag="ul">
+	    <li v-for="item in items" v-bind:key="item">
+	      {{ item }}
+	    </li>
+	  </transition-group>
+	</div>
+
+
+
+	<div id="list-complete-demo" class="demo">
+	  <button v-on:click="shuffle">Shuffle</button>
+	  <button v-on:click="add">Add</button>
+	  <button v-on:click="remove">Remove</button>
+	  <transition-group name="list-complete" tag="p">
+	    <span
+	      v-for="item in items"
+	      v-bind:key="item"
+	      class="list-complete-item"
+	    >
+	      {{ item }}
+	    </span>
+	  </transition-group>
+	</div>
+
+
+	
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/lodash.min.js"></script>
+<script>
+
+	var vm1 = new Vue({
+	  el: '#flip-list-demo',
+	  data: {
+	    items: [1,2,3,4,5,6,7,8,9]
+	  },
+	  methods: {
+	    shuffle: function () {
+	      this.items = _.shuffle(this.items)
+	    }
+	  }
+	})
+
+
+	var vm2 = new Vue({
+	  el: '#list-complete-demo',
+	  data: {
+	    items: [1,2,3,4,5,6,7,8,9],
+	    nextNum: 10
+	  },
+	  methods: {
+	    randomIndex: function () {
+	      return Math.floor(Math.random() * this.items.length)
+	    },
+	    add: function () {
+	      this.items.splice(this.randomIndex(), 0, this.nextNum++)
+	    },
+	    remove: function () {
+	      this.items.splice(this.randomIndex(), 1)
+	    },
+	    shuffle: function () {
+	      this.items = _.shuffle(this.items)
+	    }
+	  }
+	})
+
+
+</script>
+</html>

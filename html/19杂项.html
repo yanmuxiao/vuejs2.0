@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>自定义事件</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+</head>
+<body>
+	
+
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script>	
+
+	// 1、编写可复用组件
+	/*
+	在编写组件时，记住是否要复用组件有好处。一次性组件跟其它组件紧密耦合没关系，但是可复用组件应当定义一个清晰的公开接口。
+	Vue 组件的 API 来自三部分 - props, events 和 slots ：
+
+		1)、Props 允许外部环境传递数据给组件
+		2)、Events 允许组件触发外部环境的副作用
+		3)、Slots 允许外部环境将额外的内容组合在组件中。
+
+	使用 v-bind 和 v-on 的简写语法，模板的缩进清楚且简洁：
+	<my-component
+	  :foo="baz"
+	  :bar="qux"
+	  @event-a="doThis"
+	  @event-b="doThat"
+	>
+	  <img slot="icon" src="...">
+	  <p slot="main-text">Hello!</p>
+	</my-component>
+	 */ 
+
+
+
+	 // 2、子组件索引
+	 /*
+		 尽管有 props 和 events ，但是有时仍然需要在 JavaScript 中直接访问子组件。为此可以使用 ref 为子组件指定一个索引 ID 。例如：
+		<div id="parent">
+		  <user-profile ref="profile"></user-profile>
+		</div>
+		var parent = new Vue({ el: '#parent' })
+		// 访问子组件
+		var child = parent.$refs.profile
+		当 ref 和 v-for 一起使用时， ref 是一个数组或对象，包含相应的子组件。
+
+		attention: $refs 只在组件渲染完成后才填充，并且它是非响应式的。它仅仅作为一个直接访问子组件的应急方案——应当避免在模版或计算属性中使用 $refs 。
+	 */ 
+
+	 // 3、异步组件
+	 /*
+	 	在大型应用程序中，我们可能需要将应用拆分为更小的模块，并且只在实际需要时才从服务器加载组件。为了让异步按需加载组件这件事变得简单，Vue.js 允许将组件定义为一个异步解析组件定义的工厂函数。Vue.js 只在组件实际需要渲染时触发工厂函数，并将缓存结果，用于将来再次渲染。例如: 
+	 	Vue.component('async-example', function (resolve, reject) {
+		  setTimeout(function () {
+		    // Pass the component definition to the resolve callback
+		    resolve({
+		      template: '<div>I am async!</div>'
+		    })
+		  }, 1000)
+		})
+	  */ 
+
+</script>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>绑定Value</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+</head>
+<body>
+	
+	<div id="bangdingValue">
+		<!-- 当选中时，`picked` 为字符串 "a" -->
+		<input type="radio" v-model="picked" value="a">
+		<p>{{ picked }}</p>
+		<!-- `toggle` 为 true 或 false -->
+		<input type="checkbox" v-model="toggle">
+		<p>{{ toggle }}</p>
+		<!-- 当选中时，`selected` 为字符串 "abc" -->
+		<select v-model="selected">
+		  <option value="abc">ABC</option>
+		</select>
+		<p>{{ selected }}</p>
+
+
+
+		<!-- a、b是属性变量，必须声明，否则报错 -->
+		<input
+		  type="checkbox"
+		  v-model="toggleC"
+		  v-bind:true-value="a"
+		  v-bind:false-value="b"
+		>
+		<p>{{ toggleC }}</p>
+
+
+
+		<select v-model="selectedObj">
+		    <!-- 内联对象字面量==>放对象 -->
+		  <option v-bind:value="selectedObj">123</option>
+		</select>
+		<p>{{ selectedObj.number }}</p>
+
+
+
+
+		<!-- 在 "change" 而不是 "input" 事件中更新 -->
+		<input v-model="inputMsg" >
+		<p>"input" 事件中更新: {{ inputMsg }}</p>
+
+
+		<input v-model.lazy="changeMsg" >
+		<p>"change" 事件中更新(失去焦点后): {{ changeMsg }}</p>
+
+
+		<input v-model.number="age" type="number">
+		<p>输入值转为 Number 类型（如果原值的转换结果为 NaN 则返回原值）:  {{ age }}</p>
+		<p>注意：输入数字和e的时候转化为科学计数法</p>
+
+		
+
+		<input v-model.trim="trimMsg">
+		<p>如果要自动过滤用户输入的首尾空格，可以添加 trim 修饰符到 v-model 上过滤输入：</p>
+
+	</div>
+
+
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script>	
+
+	var vm1 = new Vue({
+		el: '#bangdingValue',
+		data: {
+			picked: '',
+			toggle: false,
+			selected: '',
+			a: 'aa',
+			b: 'bb',
+			toggleC: '',
+			selectedObj: { number: 123 },
+			inputMsg: '',
+			changeMsg: '',
+			age: '',
+			trimMsg: ''
+		}
+	})
+
+
+
+</script>
+</html>

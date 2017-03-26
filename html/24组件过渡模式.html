@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>组件过渡模式</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="stylesheet" type="text/css" href="../css/animate.css">
+<style type="text/css">
+		
+	.component-fade-enter-active, .component-fade-leave-active {
+	  transition: opacity .3s ease;
+	}
+	.component-fade-enter, .component-fade-leave-active {
+	  opacity: 0;
+	}
+
+</style>
+</head>
+<body>
+	
+	<div id="transition-components-demo">
+		<input type="radio" value="v-a" v-model="view">
+		<label for="one">A</label>
+		<input type="radio" value="v-b" v-model="view">
+		<label for="one">B</label>
+		<transition name="component-fade" mode="out-in">
+		  <component v-bind:is="view"></component>
+		</transition>
+	</div>
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script>
+
+	// 多个组件的过渡
+	new Vue({
+	  el: '#transition-components-demo',
+	  data: {
+	    view: 'v-a'
+	  },
+	  components: {
+	    'v-a': {
+	      template: '<div>Component A</div>'
+	    },
+	    'v-b': {
+	      template: '<div>Component B</div>'
+	    }
+	  }
+	})
+
+</script>
+</html>
