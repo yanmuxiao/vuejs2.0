@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>嵌套路由</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="stylesheet" type="text/css" href="../css/animate.css">
+<style type="text/css">
+
+
+</style>
+</head>
+<body>
+	
+	<button id="pushBtn">push</button>
+	<div id="app">
+	
+		
+
+	</div>
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/vue-router.js"></script>
+<script>
+
+	const User = {
+		template: `
+			<div class="user">
+				<h2> User {{ $route.params.id }} </h2>
+				<router-view></router-view>
+			</div>`
+	}
+
+
+	const UserHome = {
+		template: `
+			<div class="userhome"> UserHome </div>
+		`
+	}
+
+	const UserProfile = {
+		template: `
+			<div class="userprofile"> UserProfile </div>
+		`
+	}
+
+	const UserPosts = {
+		template: `
+			<div class="userprofile"> UserPosts </div>
+		`
+	}
+
+	const PushRouter = {
+		template: `
+			<div class="pushrouter"> PushRouter </div>
+		`
+	}
+
+
+	const router = new VueRouter({
+		routes: [
+			{ 
+				path: '/user/:id', name: 'user', component: User,
+				children: [
+					{
+						path: '',
+						component: UserHome
+					},
+					{
+						path: 'profile',//子组件就不用 /
+						component: UserProfile
+					},
+					{
+						path: 'posts',
+						component: UserPosts
+					},
+					{
+						path: 'pushrouter',
+						component: PushRouter
+					}
+				]
+			}
+		]
+	})
+
+	const app = new Vue({
+		router,
+		template: `
+			<div id="app">
+				<ul>
+					<li><router-link to="/user/foo">go to User</router-link></li>
+					<li><router-link to="/user/foo/profile">go to profile</router-link></li>
+					<li><router-link to="/user/foo/posts">go to posts</router-link></li>
+				</ul>
+				<router-view></router-view>
+			</div>
+		`
+	}).$mount('#app')
+
+
+	document.querySelector('#pushBtn').onclick = function() {
+		router.push('/user/foo/pushrouter')
+	}
+
+
+
+</script>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>named-routes</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="stylesheet" type="text/css" href="../css/animate.css">
+<style type="text/css">
+
+
+</style>
+</head>
+<body>
+
+	<div id="app">
+	
+		
+
+	</div>
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/vue-router.js"></script>
+<script>
+
+	// router组件
+	const Home = { template: '<div> This is Home1 </div>' }
+	const Foo = { template: '<div> This is Foo2 </div>' }
+	const Bar = { template: '<div> This is Bar3 {{ $route.params.id }}' }
+
+	// 创建router + 创建 router 实例
+	const router = new VueRouter({
+		routes: [
+			{ path: '/' },
+			{ path: '/params/:foo/:bar' },
+			{ path: '/option-params/:foo?' },
+			{ path: '/params-with-regex/:id(\\d+)' },
+			{ path: '/asterisk/*' },
+			{ path: '/optional-group/(foo/)?bar' }
+		]
+	})
+
+	// 创建和挂载根实例
+	const app = new Vue({
+		router,
+		template: `
+			<div id="app">
+				<h1>Named Routes</h1>
+				<p>Current router name: {{ $route.name }}</p>
+				<ul>
+					<li><router-link to="/">/</router-link></li>
+        			<li><router-link to="/params/foo/bar">/params/foo/bar</router-link></li>
+        			<li><router-link to="/optional-params">/optional-params</router-link></li>
+        			<li><router-link to="/optional-params/foo">/optional-params/foo</router-link></li>
+        			<li><router-link to="/params-with-regex/123">/params-with-regex/123</router-link></li>
+        			<li><router-link to="/params-with-regex/abc">/params-with-regex/abc</router-link></li>
+        			<li><router-link to="/asterisk/foo">/asterisk/foo</router-link></li>
+        			<li><router-link to="/asterisk/foo/bar">/asterisk/foo/bar</router-link></li>
+        			<li><router-link to="/optional-group/bar">/optional-group/bar</router-link></li>
+        			<li><router-link to="/optional-group/foo/bar">/optional-group/foo/bar</router-link></li>
+				</ul>
+				<p>Route context</p>
+      			<pre>{{ JSON.stringify($route, null, 2) }}</pre>
+			</div>
+		`
+	}).$mount('#app')
+
+</script>
+</html>

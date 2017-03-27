@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>动态路由匹配</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="stylesheet" type="text/css" href="../css/animate.css">
+<style type="text/css">
+
+
+</style>
+</head>
+<body>
+
+	<div id="app">
+	
+		<h1>Hello vue-router</h1>
+
+		<p>
+			<router-link to="/user/foo1"> Go to user/foo </router-link>
+			<router-link to="/user/bar2"> Go to user/bar </router-link>
+		</p>
+		
+
+		<!-- 路由出口 -->
+			<!-- 路由匹配到的组件将渲染在这里 -->
+		<router-view></router-view>
+
+	</div>
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/vue-router.js"></script>
+<script>
+
+	// router组件
+	const User = {
+		template: '<div> User {{ $route.params.id }} </div>'
+	}
+
+	// 创建router + 创建 router 实例
+	const router = new VueRouter({
+		routes: [
+			{
+				path: '/User/:id', 
+				// :id指的是/user/foo222中的foo1和/user/bar2中的bar
+				// {{ $route.params.id }}相当于接收这个参数
+				component: User
+			}
+		]
+	})
+
+	// 创建和挂载根实例
+	const app = new Vue({
+		router
+	}).$mount('#app')
+
+
+</script>
+</html>

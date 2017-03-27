@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>编程式的导航</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="stylesheet" type="text/css" href="../css/animate.css">
+<style type="text/css">
+
+
+</style>
+</head>
+<body>
+
+	
+	<button id="router-link">router-link</button>
+		<button id="pushBtn">push改变子组件到profile</button>
+	<button id="Psaaword">push('Psaaword')</button>
+	<button id="Replace">router.replace(location)</button>
+
+	<br><br>
+
+	<button id="go1">router.go(1)</button>
+	<button id="go-1">router.go(-1)</button>
+	<button id="go3">router.go(3)</button>
+
+
+	<div id="app"></div>
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/vue-router.js"></script>
+<script>
+
+	/*
+		一、router.push(location)  ==>  <router-link :to="...">
+
+		想要导航到不同的 URL，则使用 router.push 方法。这个方法会向 history 栈添加一个新的记录，所以，当用户点击浏览器后退按钮时，则回到之前的 URL。
+
+		当你点击 <router-link> 时，这个方法会在内部调用，所以说，点击 <router-link :to="..."> 等同于调用 router.push(...)。
+
+		参数： 
+
+		// 字符串
+		router.push('home')
+
+		// 对象
+		router.push({ path: 'home' })
+
+		// 命名的路由
+		router.push({ name: 'user', params: { userId: 123 }})
+
+		// 带查询参数，变成 /register?plan=private
+		router.push({ path: 'register', query: { plan: 'private' }})
+
+
+
+		二、router.replace(location)
+
+		跟 router.push 很像，唯一的不同就是，它不会向 history 添加新记录，而是跟它的方法名一样 —— 替换掉当前的 history 记录。
+
+		<router-link :to="..." replace>	 ==>  router.replace(...)
+
+
+
+		三、router.go(n)
+
+		这个方法的参数是一个整数，意思是在 history 记录中向前或者后退多少步，类似 window.history.go(n)。
+		
+
+		// 在浏览器记录中前进一步，等同于 history.forward()
+		router.go(1)
+
+		// 后退一步记录，等同于 history.back()
+		router.go(-1)
+
+		// 前进 3 步记录
+		router.go(3)
+
+		// 如果 history 记录不够用，那就默默地失败呗
+		router.go(-100)
+		router.go(100)
+
+		
+		操作 History
+
+		你也许注意到 router.push、 router.replace 和 router.go 跟 window.history.pushState、 window.history.replaceState 和 window.history.go好像， 实际上它们确实是效仿 window.history API 的。
+
+		因此，如果你已经熟悉 Browser History APIs，那么在 vue-router 中操作 history 就是超级简单的。
+
+		还有值得提及的，vue-router 的导航方法 （push、 replace、 go） 在各类路由模式（history、 hash 和 abstract）下表现一致。
+
+
+
+
+	 */
+	const User = {
+		template: `
+			<div class="user">
+				<h2> User {{ $route.params.id }} </h2>
+				<router-view></router-view>
+			</div>`
+	}
+
+	const Psaaword = {
+		template: `
+			<div class="Psaaword">
+				<h2> Psaaword </h2>
+			</div>`
+	}
+
+	const Replace = {
+		template: `
+			<div class="Replace">
+				<h2> Replace </h2>
+			</div>`
+	}
+
+
+	const UserHome = {
+		template: `
+			<div class="userhome"> UserHome </div>
+		`
+	}
+
+	const UserProfile = {
+		template: `
+			<div class="userprofile"> UserProfile </div>
+		`
+	}
+
+	const UserPosts = {
+		template: `
+			<div class="userprofile"> UserPosts </div>
+		`
+	}
+
+	const PushRouter = {
+		template: `
+			<div class="pushrouter"> push改变子组件到profile </div>
+		`
+	}
+
+
+	const router = new VueRouter({
+		routes: [
+			{ 
+				path: '/user/:id', name: 'user', component: User,
+				children: [
+					{
+						path: '',
+						component: UserHome
+					},
+					{
+						path: 'profile',//子组件就不用 /
+						component: UserProfile
+					},
+					{
+						path: 'posts',
+						component: UserPosts
+					},
+					{
+						path: 'pushrouter',
+						component: PushRouter
+					}
+				]
+			},
+			{
+				path: '/Psaaword', name: 'password', component: Psaaword
+			},
+			{
+				path: '/Replace', name: 'replace', component: Replace
+			}
+		]
+	})
+
+	const app = new Vue({
+		router,
+		template: `
+			<div id="app">
+				<ul>
+					<li><router-link to="/user/foo">go to User</router-link></li>
+					<li><router-link to="/user/foo/profile">go to profile</router-link></li>
+					<li><router-link to="/user/foo/posts">go to posts</router-link></li>
+				</ul>
+				<router-view></router-view>
+			</div>
+		`
+	}).$mount('#app')
+
+
+	
+	document.querySelector('#router-link').onclick = function() {
+		router.push({ path: '/user/foo'})
+	}
+		document.querySelector('#pushBtn').onclick = function() {
+			router.push('/user/foo/pushrouter')
+		}
+
+
+
+	document.querySelector('#Psaaword').onclick = function() {
+		router.push('/Psaaword')
+	}
+	document.querySelector('#Replace').onclick = function() {
+		router.push('/Replace')
+	}
+
+
+	// go
+	document.querySelector('#go1').onclick = function() {
+		router.go(1)
+	}
+	document.querySelector('#go-1').onclick = function() {
+		router.go(-1)
+	}
+	document.querySelector('#go3').onclick = function() {
+		router.go(3)
+	}
+
+
+</script>
+</html>
