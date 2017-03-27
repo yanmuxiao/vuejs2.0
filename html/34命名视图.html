@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>命名路由</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="stylesheet" type="text/css" href="../css/animate.css">
+<style type="text/css">
+	.section-top {
+		background-color: #a0a0a0;
+		height: 60px;
+		color: #000;
+		font-size: 20px;
+	}
+	.section-left {
+		background-color: #ff0;
+		height: 300px;
+		width: 20%;
+		display: inline-block;
+		color: #000;
+		font-size: 20px;
+	}
+	.section-right {
+		background-color: #f0f;
+		height: 300px;
+		width: 79%;
+		display: inline-block;
+		color: #000;
+		font-size: 20px;
+	}
+	.section-bottom {
+		background-color: #0ff;
+		color: #000;
+		font-size: 20px;
+		height: 40px;
+	}
+
+</style>
+</head>
+<body>
+	
+	<div id="app">
+		
+		 <ul>
+		    <li>
+		      <router-link to="/">/</router-link>
+		    </li>
+		    <li>
+		      <router-link to="/link">/link</router-link>
+		    </li>
+		  </ul>
+
+		<router-view class="section-top"></router-view>	
+		<router-view class="section-left" name="rl"></router-view>	
+		<router-view class="section-right" name="rr"></router-view>	
+		<router-view class="section-bottom" name="rb"></router-view>	
+	</div>
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/vue-router.js"></script>
+<script>
+
+	const Rtop = { template: '<div> top </div>'}
+	const Rleft = { template: '<div> left </div>'}
+	const Rright = { template: '<div> right </div>'}
+	const Rbottom = { template: '<div> bottom </div>'}
+
+	const router = new VueRouter({
+		routes: [
+			{
+				path: '/',
+				components: {
+					default: Rtop,
+					rl: Rleft,
+					rr: Rright,
+					rb: Rbottom
+				}
+			},
+			{
+				path: '/link',
+				components: {
+					default: Rtop,
+					rl: Rright,
+					rr: Rleft,
+					rb: Rbottom
+				}
+			}
+		]
+	})
+
+	const app = new Vue({
+		el: '#app',
+		router
+	})
+
+
+</script>
+</html>
