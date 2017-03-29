@@ -64,7 +64,9 @@
 	const router = new VueRouter({
 		routes: [
 			{ 
-				path: '/user/:id', name: 'user', component: User,
+				path: '/user/:id', 
+				// name: 'user', ==>路由嵌套如果存在默认子组件，不要写name，否则有警告
+				component: User,
 				children: [
 					{
 						path: '',

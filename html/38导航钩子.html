@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>导航钩子</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="stylesheet" type="text/css" href="../css/animate.css">
+<style type="text/css">
+
+
+</style>
+</head>
+<body>
+
+	<div id="app"></div>
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/vue-router.js"></script>
+<script>
+
+	// router组件
+	const Home = { template: '<div> This is Home1 {{ $route.params.id }}</div>' }
+	const Foo = { template: '<div> This is Foo2  {{ $route.params.aa }}</div>' }
+
+	// 组件内的钩子
+	const Bar = { 
+		template: '<div> This is Bar3 </div>',
+		beforeRouterEnter (to, from, next) {
+			// 在渲染该组件的对应路由被 confirm 前调用
+    		// 不！能！获取组件实例 `this`
+    		// 因为当钩子执行前，组件实例还没被创建
+			console.log('Bar ==> beforeRouter')
+			next();
+		},
+		beforeRouterUpdate (to, from, next) {
+			// 在当前路由改变，但是该组件被复用时调用
+    		// 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+    		// 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
+    		// 可以访问组件实例 `this`
+			console.log('Bar ==> beforeRouterupdate ==>' + this)
+			next();
+		},
+		beforeRouterLeave (to, from, next) {
+			// 导航离开该组件的对应路由时调用
+    		// 可以访问组件实例 `this`
+			console.log('Bar ==> beforeRouterLeave ==> ' + this)
+			next();
+		}
+	}
+
+
+	// 创建router + 创建 router 实例
+	const router = new VueRouter({
+		routes: [
+			{ 
+				path: '/home/:id', 
+				name: 'home', 
+				component: Home,
+				//某个路由独享的钩子
+				beforeEnter: (to, from, next) => {
+
+					// 处理代码
+					console.log('beforeEnter')
+					console.log(from);
+					console.log(to); //home
+					// console.log(this) //Window
+					next();//next方法必须调用，否则当前的导航被中断
+				}
+			},
+			{ 
+				path: '/foo/:ided', 
+				name: 'foo', 
+				component: Foo 
+			},
+			{ 
+				path: '/bar', 
+				name: 'bar', 
+				component: Bar 
+			}
+		]
+	})
+
+
+	// 全局钩子导航每次触发都会执行，全局钩子里面的this都指向Window
+	router.beforeEach((to, from, next) => {
+
+		// 处理代码
+		console.log('beforeEach')
+		// console.log(this) //Window
+		next();//next方法必须调用，否则当前的导航被中断
+	})
+
+	// 同样可以注册一个全局的 after 钩子，不过它不像 before 钩子那样，after 钩子没有 next 方法，不能改变导航：
+	router.afterEach(route => {
+		// 处理代码
+		// console.log(this) //Window
+		console.log('afterEach')
+	})
+
+
+
+	// 创建和挂载根实例
+	const app = new Vue({
+		router, 
+		template: `
+			<div id="app">
+				<h1>Named Routes</h1>
+				<p>Current router name: {{ $route.name }}</p>
+				<ul>
+					<li><router-link to="/home/id为123">home</router-link></li>
+					<li><router-link :to="{name: 'foo', params: {ided: '122333', aa: 'aaaaa'}}">foo</router-link></li>
+					<li><router-link to="/bar">bar</router-link></li>
+				</ul>
+				<router-view class="view"></router-view>
+			</div>
+		`
+	}).$mount('#app')
+
+</script>
+</html>

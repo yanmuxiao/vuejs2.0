@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>过渡效果</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="stylesheet" type="text/css" href="../css/animate.css">
+<style type="text/css">
+
+
+</style>
+</head>
+<body>
+
+	<div id="app"></div>
+    
+</body>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/vue-router.js"></script>
+<script>
+
+	const Home = {
+		template: `
+			<div class="home">
+				<h2>Home</h2>
+				<p>hello</p>
+			</div>
+		`
+	}
+
+	const Parent = {
+		template: `
+			<div class="parent">
+				<h2>Parent</h2>
+				<transition name="transitionName">
+					<router-view class="child-view"></router-view>
+				</transition>
+			</div>
+		`,
+		data () {
+			return {
+				transitionName: 'slide-left'
+			}
+		},
+		watch: {
+			'$router' (to, from) {
+				const toDepth = to.path.split('/').length
+				const fromDepth = from.path.split('/').length
+				this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+			}
+		}
+	}
+
+	const Default = {
+		template: `
+			<div class="default">default</div>
+		`
+	}
+
+	const Foo = {
+		template: `
+			<div class="foo">foo</div>
+		`
+	}
+
+	const Bar = {
+		template: `
+			<div class="bar">bar</div>
+		`
+	}
+
+
+
+	const router = new VueRouter({
+		routes: [
+			{ path: '/', component: Home },
+			{ 
+				path: '/parent', component: Parent,
+				children: [
+					{ path: '', component: Default },
+					{ path: 'foo', component: Foo },
+					{ path: 'bar', component: Bar }
+				]	
+			 }
+		]
+	})
+
+
+
+
+	new Vue({
+	  router,
+	  template: `
+	    <div id="app">
+	      <h1>Transitions</h1>
+	      <ul>
+	        <li><router-link to="/">/</router-link></li>
+	        <li><router-link to="/parent">/parent</router-link></li>
+	        <li><router-link to="/parent/foo">/parent/foo</router-link></li>
+	        <li><router-link to="/parent/bar">/parent/bar</router-link></li>
+	      </ul>
+	      <transition name="fade" mode="out-in">
+	        <router-view class="view"></router-view>
+	      </transition>
+	    </div>
+	  `
+	}).$mount('#app')
+
+</script>
+</html>
