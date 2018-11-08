@@ -27,7 +27,7 @@
 	  <button v-on:click="say('hi')">Say hi</button>
 	  <button v-on:click="say('what')">Say what</button>
 		
-	  <!-- 特殊变量$event有什么用？ -->
+	  <!-- 特殊变量$event -->
 	  <button v-on:click="warn('Form cannot be submitted yet.', $event)">Submit</button>
 	</div>
 	
@@ -70,9 +70,10 @@
 	    say: function (message) {
 	      alert(message)
 	    },
-	    warn: function(message, event){//特殊变量$event有什么用？
-	    	if (event) event.preventDefault()
-    		alert(message)
+	    warn: function(message, event){ //特殊变量$event
+	    	alert(event.target.tagName);
+	    	if (event) event.preventDefault();
+    		alert(message);
 	    }
 	  }
 	});

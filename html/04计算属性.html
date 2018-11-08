@@ -12,10 +12,18 @@
 <body>
 	
 	<div id="example">
+	  <input type="text" v-model="message" name="">
 	  <p>Original message: "{{ message }}"</p>
-	  <p>Computed reversed message: "{{ reversedMessage }}"</p>
 
-	  <p>Reversed message: "{{ reverseMessage() }}"</p>
+	  <!-- 计算属性只计算一次 -->
+	  <p>Computed reversed message1: "{{ reversedMessage }}"</p>
+	  <p>Computed reversed message2: "{{ reversedMessage }}"</p>
+	  <p>Computed reversed message3: "{{ reversedMessage }}"</p>
+
+	  <!-- 方法执行3次 -->
+	  <p>Reversed message1: "{{ reverseMessage() }}"</p>
+	  <p>Reversed message2: "{{ reverseMessage() }}"</p>
+	  <p>Reversed message3: "{{ reverseMessage() }}"</p>
 
 
 	</div>
@@ -57,14 +65,27 @@
 		    reversedMessage: function () {
 		      // `this` points to the vm instance
 		      console.log('计算属性');
-		      return this.message.split('').reverse().join('')
+		      return this.message.split('').reverse().join('');
+		      // 不能是异步
+		      // setTimeout(()=>{
+		      // 	console.log('计算属性');
+		      // 	return this.message.split('').reverse().join('')
+		      // }, 0)
+
 		    }
 	  },
 	  methods: {
 	  		reverseMessage: function () {
 		      // `this` points to the vm instance
 		      console.log('Method');
-		      return this.message.split('').reverse().join('')
+		      return this.message.split('').reverse().join('');
+
+		      // 不能是异步
+		      // setTimeout(()=>{
+		      // 	console.log('计算属性');
+		      // 	return this.message.split('').reverse().join('')
+		      // }, 0)
+
 		    }
 	  }
 	})
@@ -147,8 +168,8 @@
 	  watch: {
 	    // 如果 question 发生改变，这个函数就会运行
 	    question: function (newQuestion) {
-	      this.answer = 'Waiting for you to stop typing...'
-	      this.getAnswer()
+	      this.answer = 'Waiting for you to stop typing...';
+	      this.getAnswer(); // 可以异步
 	    }
 	  },
 	  methods: {

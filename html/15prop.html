@@ -15,10 +15,19 @@
 		<child v-for="item in items" v-bind:message="item.msg"></child>
 	</div>
 
+
 	<!-- 动态prop -->
 	<div id="propExample2">
 		<input type="text" v-model.lazy="parentMsg">
 		<child v-bind:message="parentMsg"></child>
+	</div>
+
+
+	<!-- 动态prop -->
+	<div id="propExample3">
+		name: <input type="text" v-model="pObj.name" name="">
+		number: <input type="text" v-model="pObj.number" name="">
+		<btn-com :p-obj="pObj"></btn-com>
 	</div>
 
     
@@ -31,9 +40,16 @@
 	  props: ['message'],
 	  // 就像 data 一样，prop 可以用在模板内
 	  // 同样也可以在 vm 实例中像 “this.message” 这样使用
-	  template: '<p>动态prop: {{ message }}</p>'
-	})
+	  template: '<p>动态prop: {{ message }}</p>',
+	  data() {
+	  	return {
 
+	  	}
+	  },
+	  methods: {
+
+	  }
+	})
 	var vm1 = new Vue({
 		el: '#propExample',
 		data: {
@@ -57,6 +73,38 @@
 	})
 
 
+
+	Vue.component('btn-com', {
+		template: `<div><button @click="btnComClick">确定</button>
+			<p>name: <input v-model="cObj.name" ></p>
+			<p>number: <input v-model="cObj.number" ></p>
+		</div>`,
+		props: ['pObj'],
+		data() {
+			return {
+
+			}
+		},
+		computed: {
+			cObj() {
+				return this.pObj;
+			}
+		},
+		methods: {
+			btnComClick() {
+				console.log(this.pObj);
+			}
+		}
+	})
+	new Vue({
+		el: '#propExample3',
+		data: {
+			pObj: {
+				name: '广州',
+				number: 2018
+			}
+		}
+	})
 
 
 	/*

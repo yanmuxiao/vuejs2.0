@@ -11,7 +11,61 @@
 </head>
 <body>
 	
-	<!-- methods只有纯粹的数据逻辑，而不是去处理 DOM 事件细节。 -->
+	<div id="example-1">
+		<div @click="wrapClick">
+			<button @click.stop="btnClick"><span>btnClick</span></button>
+		</div>
+
+		<div @click="wrapClick">
+			<p>self：点击span不会触发btnClick事件，触发wrapClick</p>
+			<button @click.self="btnClick"><span>btnClick</span></button>
+		</div>
+
+		<div @click="wrapClick">
+			<!-- self -->
+			<!-- 只当在 event.target 是当前元素自身时触发处理函数 -->
+			<!-- 即事件不是从内部元素触发的 -->
+			<p>stop和self：点击span不会触发btnClick、wrapClick事件</p>
+			<button @click.stop.self="btnClick"><span>btnClick</span></button>
+		</div>
+
+
+		<form @submit.prevent="formSubmitFn">
+			<p>阻止默认事件: </p>
+			<input type="text" name="form1">
+			<button type="submit">form提交</button>
+		</form>
+
+
+		<!-- 按键修饰符 -->
+		<p>enter: </p>
+		<input type="text" @keyup.enter="keyupEnterFn('enter')" name="">
+
+		<p>tab: </p>
+		<input type="text" @keyup.tab="keyupEnterFn('tab')" name="">
+
+		<p>delete: </p>
+		<input type="text" @keyup.delete="keyupEnterFn('delete')" name="">
+
+		<p>esc: </p>
+		<input type="text" @keyup.esc="keyupEnterFn('esc')" name="">
+
+		<p>space: </p>
+		<input type="text" @keyup.space="keyupEnterFn('space')" name="">
+
+		<p>up: </p>
+		<input type="text" @keyup.up="keyupEnterFn('up')" name="">
+
+		<p>down: </p>
+		<input type="text" @keyup.down="keyupEnterFn('down')" name="">
+
+		<p>left: </p>
+		<input type="text" @keyup.left="keyupEnterFn('left')" name="">
+
+		<p>right: </p>
+		<input type="text" @keyup.right="keyupEnterFn('right')" name="">
+
+	</div>	
 
     
 </body>
@@ -40,13 +94,35 @@
 	<!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 -->
 	<div v-on:click.self="doThat">...</div>
 
+
+	使用修饰符时，顺序很重要；相应的代码会以同样的顺序产生。因此，用 v-on:click.prevent.self 会阻止所有的点击，而 v-on:click.self.prevent 只会阻止对元素自身的点击。
+
+
 	2.1.4 新增
 	<!-- 点击事件将只会触发一次 -->
 	<a v-on:click.once="doThis"></a>
 	
-	 */ 
+	*/ 
 
-
+	var vm1 = new Vue({
+		el: '#example-1',
+		data: {
+		},
+		methods: {
+			wrapClick() {
+				console.log('wrapClick');
+			},
+			btnClick() {
+				console.log('btnClick');
+			},
+			formSubmitFn() {
+				console.log('formSubmitFn');
+			},
+			keyupEnterFn(arg) {
+				console.log(arg);
+			}
+		}
+	});
 
 
 

@@ -139,7 +139,12 @@
 		// 组件
 		Vue.component('todo-item', {
 		  props: ['todo'],
-		  template: '<li>{{ todo.text }}</li>'
+		  template: '<li>{{ todo.text }} ==> {{a}}</li>',
+		  data() { // 必须是函数
+		  	return {
+		  		a: 'AAA'
+		  	}
+		  }
 		})
 		var app7 = new Vue({
 		  el: '#app-7',
@@ -168,6 +173,8 @@
 				]
 			}
 		});
+
+
 
 
 

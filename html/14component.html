@@ -12,20 +12,18 @@
 <body>
 	
 	<div id="componentID">
-		
+		<button @click="pNumFn">{{ amount }}</button>
 		<!-- 全局注册的组件 -->
-		<my-component></my-component>	
-
-
-		<!-- 局部注册的组件 -->		
-		<c-component></c-component>	
+		<my-component :name="name" :pnum="pNum" @change="clickFn"></my-component>	
+		<child-component1 :title="title" @change="parentClickFn"></child-component1>
 
 	</div>
 
 
-	<div id="dataComponent">
-		<data-component></data-component>
+	<div id="childComponent">
+		<child-component :title="title" @change="parentClickFn"></child-component>
 	</div>
+
 
 	<div id="singleCounter">
 		<single-counter></single-counter>
@@ -39,6 +37,8 @@
 <script type="text/javascript" src="../js/vue.js"></script>
 <script>	
 
+	// 区分实例和组件
+
 	/*
 	要注册一个全局组件，你可以使用 Vue.component(tagName, options)。 例如：
 		Vue.component('my-component', {
@@ -46,49 +46,105 @@
 		})
 	*/ 
 
-	// 注册
+	// 全局组件注册以及双向通信，全局注册的组件可以在任意vue实例中使用
 	Vue.component('my-component', {
-	  template: '<div>A custom component!</div>'
-	})
-	var vm1 = new Vue({
-		el: '#componentID'
-	})
-
-
-
-	// 是这样用的吗？不确定
-	var Child = {
-	  template: '<div>A area custom component!</div>'
-	}
-	var vm2 = new Vue({
-	  el: '#componentID',
-	  components: {
-	    // <c-component> 将只在父模板可用
-	    'c-component': Child
-	  }
-	})
-
-
-
-	// 组件中data必须是函数, 否则控制台有警告,且达不到我们想要的效果，
-	// 我们可以通过data这个函数返回data对象解决问题
-	Vue.component('data-component', {
-	  template: '<span>{{ message }}</span>',
-	  data: function(){
+		props: ['name', 'pnum'],
+	  	// template: `<button @click="$emit('change', ++cNum)">{{ name }} ==> {{ pnum + cNum }}</button>`,
+	  	template: `<button @click="childClickFn">{{ name }} ==> {{ pnum + cNum }}</button>`,
+	  	// 组件中data必须是函数, 否则控制台有警告,且达不到我们想要的效果，
+		// 我们可以通过data这个函数返回data对象解决问题
+	  	data() {
 	  		return {
-	  			message: 'Hello'
+	  			cNum: 0
 	  		}
-	  }
-	});
+	  	},
+	  	methods: {
+	  		childClickFn() {
+	  			this.cNum++;
+	  			this.$emit('change', this.cNum);
+	  		}
+	  	}
+	})
+
+
+	// 讲一个全局组件命名并传入一个实例，这个全局组件就是属于该实例的一个局部注册的的局部组件
+	// webpack中，一个.vue文件就是一个命名的局部注册组件
+	var childComponent = Vue.component('child-component1', {
+		template: '<button @click="childClickFn" :title="title">局部注册的组件</button>',
+		props: ['title'],
+		data() {
+			return {
+				name: '局部注册的组件'
+			}
+		},
+		methods: {
+			childClickFn() {
+				console.log('局部注册的组件');
+				this.$emit('change', '局部注册的组件传给父组件的值');
+			}
+		}
+	})
+
+	// 实例
+	var vm1 = new Vue({
+		el: '#componentID',
+		data: {
+			pNum: 0,
+			amount: 0,
+			name: '点击自增1',
+	  		title: '父组件参数'
+		},
+	  	methods: {
+	  		clickFn(num) {
+	  			this.amount = this.pNum + num;
+	  		},
+	  		pNumFn() {
+	  			this.pNum++;
+	  			this.amount++;
+	  		},
+	  		parentClickFn(value) {
+				console.log('parentClickFn==>' + value);
+			}
+	  	}
+	})
+
+
+	
+
+	// 局部注册的组件只能在当前的实例中使用
 	var vm3 = new Vue({
-		el: '#dataComponent'
+		el: '#childComponent',
+		data: {
+			title: '父组件参数'
+		},
+		methods: {
+			parentClickFn(value) {
+				console.log('parentClickFn2==>' + value);
+			}
+		},
+		components: {
+			'child-component': childComponent
+			// 'child-component': {
+			// 	template: '<button @click="childClickFn" :title="title">局部注册的组件</button>',
+			// 	props: ['title'],
+			// 	data() {
+			// 		return {
+			// 			name: '局部注册的组件'
+			// 		}
+			// 	},
+			// 	methods: {
+			// 		childClickFn() {
+			// 			console.log('局部注册的组件');
+			// 			this.$emit('change', '局部注册的组件传给父组件的值');
+			// 		}
+			// 	}
+			// }
+		}
 	})
 
 
 
-
-
-
+	// 一个实例中多次使用一个组件，组件之间相互独立
 	Vue.component('single-counter',{
 		template: '<button v-on:click="counter += 1">{{counter}}</button>',
 		data: function(){

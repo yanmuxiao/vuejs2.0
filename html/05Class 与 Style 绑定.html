@@ -98,7 +98,13 @@
 
 	// 组件上的class
 	Vue.component('my-component', {
-	  	template: '<p class="foo bar">Hi</p>'
+		props: ['todo'],
+	  	template: '<p class="foo bar">Hi</p>',
+	  	data() {
+	  		return {
+	  			
+	  		}
+	  	}
 	})
 	var vmComponent = new Vue({
 		el : '#componentClass',
