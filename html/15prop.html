@@ -25,9 +25,11 @@
 
 	<!-- 动态prop -->
 	<div id="propExample3">
-		name: <input type="text" v-model="pObj.name" name="">
-		number: <input type="text" v-model="pObj.number" name="">
-		<btn-com :p-obj="pObj"></btn-com>
+		<button @click="parentClick">父组件点击事件</button>
+		<p>name: <input type="text" v-model="pObj.name" name=""></p>
+		<p>number: <input type="text" v-model="pObj.number" name=""></p>
+		<!-- 传入组件的属性不能使用驼峰式命名，要使用横线隔开的命名方式 -->
+		<btn-com :p-obj="pObj" @send-data="getComponentData" ref="btnCom"></btn-com>
 	</div>
 
     
@@ -35,20 +37,30 @@
 <script type="text/javascript" src="../js/vue.js"></script>
 <script>	
 
+	var Bus = new Vue();
+	// Bus.$off()
+	// this.$root.Bus.$on()
+	// this.$root.Bus.$emit()
+
 	Vue.component('child', {
-	  // 声明 props
-	  props: ['message'],
-	  // 就像 data 一样，prop 可以用在模板内
-	  // 同样也可以在 vm 实例中像 “this.message” 这样使用
-	  template: '<p>动态prop: {{ message }}</p>',
-	  data() {
-	  	return {
+		// 声明 props
+		props: ['message'],
+		// 就像 data 一样，prop 可以用在模板内
+		// 同样也可以在 vm 实例中像 “this.message” 这样使用
+		template: '<p>动态prop: {{ message }}</p>',
+		data() {
+			return {
 
-	  	}
-	  },
-	  methods: {
+			}
+		},
+		created() {
+			Bus.$on('setMsg', content => { 
+		      	console.log('child');
+		    });
+		},
+		methods: {
 
-	  }
+		}
 	})
 	var vm1 = new Vue({
 		el: '#propExample',
@@ -61,10 +73,6 @@
 			]
 		}
 	})
-
-
-
-
 	var vm2 = new Vue({
 		el: '#propExample2',
 		data: {
@@ -73,35 +81,59 @@
 	})
 
 
-
+	
 	Vue.component('btn-com', {
-		template: `<div><button @click="btnComClick">确定</button>
+		template: `<div><button @click="btnComClick">子组件点击事件</button>
 			<p>name: <input v-model="cObj.name" ></p>
 			<p>number: <input v-model="cObj.number" ></p>
 		</div>`,
-		props: ['pObj'],
+		props: ['pObj'], // 横线隔开的命名属性 ==> 驼峰式命名属性
 		data() {
 			return {
-
+				cObj: {
+					name: '',
+					number: ''
+				}
 			}
 		},
+		created() {
+			// this.cObj = this.pObj; // 父子组件引用的对象指引相同
+			// this.cObj = JSON.parse(JSON.stringify(this.pObj));
+			Object.assign(this.cObj, this.pObj);
+
+			Bus.$on('setMsg', content => { 
+		      	console.log(content);
+		    });
+
+		},
 		computed: {
-			cObj() {
-				return this.pObj;
-			}
+
 		},
 		methods: {
 			btnComClick() {
-				console.log(this.pObj);
+				this.$emit('send-data', this.cObj); // 子组件触发父组件的方法
+			},
+			btnComFn(pObj) {
+				Object.assign(this.cObj, pObj);
 			}
 		}
 	})
+
 	new Vue({
 		el: '#propExample3',
 		data: {
 			pObj: {
 				name: '广州',
 				number: 2018
+			}
+		},
+		methods: {
+			parentClick() {
+				Bus.$emit('setMsg', 'Hi Vue!');
+				this.$refs.btnCom.btnComFn(this.pObj); // 父组件触发子组件的方法
+			},
+			getComponentData(cObj) {
+				Object.assign(this.pObj, cObj);
 			}
 		}
 	})
@@ -146,10 +178,6 @@
 		
 		注意在 JavaScript 中对象和数组是引用类型，指向同一个内存空间，如果 prop 是一个对象或数组，在子组件内部改变它会影响父组件的状态。
 	 */ 
-
-
-
-
 
 
 </script>

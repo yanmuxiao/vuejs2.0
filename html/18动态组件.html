@@ -12,12 +12,12 @@
 	
 	<div id="example">
 
-		<component :is="currentView"></component>
+		<component :is="currentView"></component> <!-- 每一次切换created钩子函数都执行了一次 -->
 		
 		<!-- 如果把切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。为此可以添加一个 keep-alive 指令参数： -->
-		<keep-alive>
+		<!-- <keep-alive>
 			<component :is="currentView"></component>
-		</keep-alive>
+		</keep-alive> -->
 		
 		<button v-on:click="componentRandom">组件切换</button>
 	</div>
@@ -43,19 +43,27 @@
 		},
 		components: {
 			home: {
-				template: '<p>我是 home component</p>'
+				template: '<p>我是 home component</p>',
+				created() {
+					console.log('home');
+				}
 			},
 			posts: {
-				template: '<p>我是 posts component</p>'
+				template: '<p>我是 posts component</p>',
+				created() {
+					console.log('posts');
+				}
 			},
 			archive: {
-				template: '<p>我是 archive component</p>'
+				template: '<p>我是 archive component</p>',
+				created() {
+					console.log('archive');
+				}
 			}
 		},
 		methods: {
 			componentRandom: function(){
 				this.currentView = componentsArr[Math.floor(Math.random()*3)];
-				console.log(this.currentView);
 			}
 		}
 	})
@@ -66,12 +74,16 @@
 	var vm2 = new Vue({
 		el:'#nextTickID',
 		data: {
-			message: 'nextTickID'
+			message: 'nextTickID',
+			a: 'A'
 		}
 	});
 	vm2.message = 'nextTickID2';
+	console.log('1==>');
+	console.log(vm2.$el);
 	console.log(vm2.$el.textContent === 'nextTickID2');
 	Vue.nextTick(function(){
+		console.log('2==>');
 		console.log(vm2.$el.textContent === 'nextTickID2')
 	})
 
@@ -89,18 +101,18 @@
 		},
 		methods: {
 			updataMessage: function(){
-				this.message = 'updated';
-				console.log(this.$el.textContent);
 
+				this.message = 'updated'; // 还没更新DOM
+				
+				console.log(this.$el.textContent); // 还没更新DOM, DOM操作获取的值还是旧值
 				this.$nextTick(function(){
 					console.log(this.$el.textContent);
 				})
+				setTimeout(()=>{
+					console.log(this.$el.textContent);
+				})
 
-			// 	var _this = this;
-			// 	setTimeout(function(){
-			// 		console.log(_this.$el.textContent);
-			// 	},100)
-			// }
+			}
 		
 		}
 	})
