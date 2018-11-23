@@ -27,16 +27,16 @@
 <script>
 
 	// router组件
-	const Home = { template: '<div> This is Home1 {{ $route.params.id }}</div>' }
-	const Foo = { template: '<div> This is Foo2  {{ $route.params.aa }}</div>' }
-	const Bar = { template: '<div> This is Bar3 </div>' }
+	const Home = { template: '<div> This is Home1, 参数为： {{ $route.params.id }}</div>' }
+	const Foo = { template: '<div> This is Foo2, 参数为：  {{ $route.params.aa }}</div>' }
+	const Bar = { template: '<div> This is Bar3, 参数为：  {{ $route.params.id }}</div>' }
 
 	// 创建router + 创建 router 实例
 	const router = new VueRouter({
 		routes: [
 			{ path: '/home/:id', name: 'home', component: Home },
-			{ path: '/foo/:ided', name: 'foo', component: Foo },
-			{ path: '/bar', name: 'bar', component: Bar }
+			{ path: '/foo/:id', name: 'foo', component: Foo },
+			{ path: '/bar/:id', name: 'bar', component: Bar }
 		]
 	})
 
@@ -50,7 +50,7 @@
 				<ul>
 					<li><router-link to="/home/id为123">home</router-link></li>
 					<li><router-link :to="{name: 'foo', params: {ided: '122333', aa: 'aaaaa'}}">foo</router-link></li>
-					<li><router-link to="/bar">bar</router-link></li>
+					<li><router-link to="/bar/bar">bar</router-link></li>
 				</ul>
 				<router-view class="view"></router-view>
 			</div>

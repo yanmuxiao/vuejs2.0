@@ -38,7 +38,12 @@
 
 	// router组件
 	const User = {
-		template: '<div> User {{ $route.params.id }} </div>'
+		template: '<div> {{ a }} User {{ $route.params.id }} </div>',
+		data() {
+			return {
+				a: 'A'
+			}
+		}
 	}
 
 	// 创建router + 创建 router 实例

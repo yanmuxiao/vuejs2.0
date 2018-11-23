@@ -80,7 +80,6 @@
 	});
 	vm2.message = 'nextTickID2';
 	console.log('1==>');
-	console.log(vm2.$el);
 	console.log(vm2.$el.textContent === 'nextTickID2');
 	Vue.nextTick(function(){
 		console.log('2==>');
@@ -100,10 +99,11 @@
 			}
 		},
 		methods: {
+			
 			updataMessage: function(){
 
 				this.message = 'updated'; // 还没更新DOM
-				
+
 				console.log(this.$el.textContent); // 还没更新DOM, DOM操作获取的值还是旧值
 				this.$nextTick(function(){
 					console.log(this.$el.textContent);

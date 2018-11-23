@@ -52,10 +52,11 @@
 
 		// 命名的路由
 		router.push({ name: 'user', params: { userId: 123 }})
+		取参方式：this.$route.params.userId
 
 		// 带查询参数，变成 /register?plan=private
 		router.push({ path: 'register', query: { plan: 'private' }})
-
+		取参方式：this.$route.query.plan
 
 
 		二、router.replace(location)

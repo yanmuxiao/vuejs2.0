@@ -58,7 +58,7 @@
 	var vm = new Vue({
 	  el: '#example',
 	  data: {
-	    message: 'Hello'
+	    message: 'Hello',
 	  },
 	  computed: {
 		    // a computed getter
@@ -69,7 +69,7 @@
 		      // 不能是异步
 		      // setTimeout(()=>{
 		      // 	console.log('计算属性');
-		      // 	return this.message.split('').reverse().join('')
+		      // 	return this.message.split('').reverse().join('');
 		      // }, 0)
 
 		    }
@@ -79,13 +79,11 @@
 		      // `this` points to the vm instance
 		      console.log('Method');
 		      return this.message.split('').reverse().join('');
-
 		      // 不能是异步
 		      // setTimeout(()=>{
-		      // 	console.log('计算属性');
+		      // 	console.log('方法');
 		      // 	return this.message.split('').reverse().join('')
 		      // }, 0)
-
 		    }
 	  }
 	})
