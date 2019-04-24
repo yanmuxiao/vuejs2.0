@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Vue</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
-<link href="" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Vue 001</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link href="" rel="stylesheet">
 </head>
+
 <body>
 
-	<!--这是我们的View-->
+    <!--这是我们的View-->
     <div id="app">
         {{ message }}
     </div>
@@ -19,166 +21,168 @@
 
 
     <div id="app-2">
-	  <span v-bind:title="message">
+        <span v-bind:title="message">
 	    Hover your mouse over me for a few seconds to see my dynamically bound title!
 	  </span>
-	</div>
+    </div>
 
 
-	<div id="app-3">
-	  	<p v-if="seen">Now you see me</p>
-	</div>
+    <div id="app-3">
+        <p v-if="seen">Now you see me</p>
+    </div>
 
 
-	<div id="app-4">
-	  <ol>
-	    <li v-for="todo1 in todos">
-	      {{ todo1.text }}
-	    </li>
-	  </ol>
-	</div>
+    <div id="app-4">
+        <ol>
+            <li v-for="todo1 in todos">
+                {{ todo1.text }}
+            </li>
+        </ol>
+    </div>
 
 
-	<div id="app-5">
-	  <p>{{ message }}</p>
-	  <button v-on:click="reverseMessage">Reverse Message</button>
-	</div>
+    <div id="app-5">
+        <p>{{ message }}</p>
+        <button v-on:click="reverseMessage">Reverse Message</button>
+    </div>
 
 
-	<div id="app-6">
-	  <p>{{ message }}</p>
-	  <input v-model="message">
-	</div>
+    <div id="app-6">
+        <p>{{ message }}</p>
+        <input v-model="message">
+    </div>
 
 
-	<div id="app-7">
-	  <ol>
-	    <!-- Now we provide each todo-item with the todo object    -->
-	    <!-- it's representing, so that its content can be dynamic -->
-	    <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
-	  </ol>
-	</div>
+    <div id="app-7">
+        <ol>
+            <!-- Now we provide each todo-item with the todo object    -->
+            <!-- it's representing, so that its content can be dynamic -->
+            <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+        </ol>
+    </div>
 
 
-	<div id="modelComponent">
-		<model-item v-for="item in books" v-bind:model="item"></model-item>
-	</div>
+    <div id="modelComponent">
+        <model-item v-for="item in books" v-bind:model="item"></model-item>
+    </div>
 
 
-    
+
 </body>
 <script type="text/javascript" src="../js/vue.js"></script>
 <script type="text/javascript">
-	
-	 	// 这是我们的Model
-        var exampleData = {
+    // 这是我们的Model
+    var exampleData = {
             message: 'Hello World!'
         }
         // 创建一个 Vue 实例或 "ViewModel"
         // 它连接 View 与 Model
-        new Vue({
-            el: '#app',
-            data: exampleData
-        })
+    new Vue({
+        el: '#app',
+        data: exampleData
+    })
 
 
 
 
 
-        var app2 = new Vue({
-		  el: '#app-2',
-		  data: {
-		    message: 'You loaded this page on ' + new Date()
-		  }
-		})
+    var app2 = new Vue({
+        el: '#app-2',
+        data: {
+            message: 'You loaded this page on ' + new Date()
+        }
+    })
 
 
 
 
-		var app3 = new Vue({
-		  el: '#app-3',
-		  data: {
-		    seen: true
-		  }
-		})
+    var app3 = new Vue({
+        el: '#app-3',
+        data: {
+            seen: true
+        }
+    })
 
 
-		var app4 = new Vue({
-		  el: '#app-4',
-		  data: {
-		    todos: [
-		      { text: 'Learn JavaScript' },
-		      { text: 'Learn Vue' },
-		      { text: 'Build something awesome' }
-		    ]
-		  }
-		})
+    var app4 = new Vue({
+        el: '#app-4',
+        data: {
+            todos: [{
+                text: 'Learn JavaScript'
+            }, {
+                text: 'Learn Vue'
+            }, {
+                text: 'Build something awesome'
+            }]
+        }
+    })
 
 
-		var app5 = new Vue({
-		  el: '#app-5',
-		  data: {
-		    message: 'Hello Vue.js!'
-		  },
-		  methods: {
-		    reverseMessage: function () {
-		      this.message = this.message.split('').reverse().join('')
-		    }
-		  }
-		})
+    var app5 = new Vue({
+        el: '#app-5',
+        data: {
+            message: 'Hello Vue.js!'
+        },
+        methods: {
+            reverseMessage: function() {
+                this.message = this.message.split('').reverse().join('')
+            }
+        }
+    })
 
 
-		var app6 = new Vue({
-		  el: '#app-6',
-		  data: {
-		    message: 'Hello Vue!'
-		  }
-		})
+    var app6 = new Vue({
+        el: '#app-6',
+        data: {
+            message: 'Hello Vue!'
+        }
+    })
 
 
-		// 组件
-		Vue.component('todo-item', {
-		  props: ['todo'],
-		  template: '<li>{{ todo.text }} ==> {{a}}</li>',
-		  data() { // 必须是函数
-		  	return {
-		  		a: 'AAA'
-		  	}
-		  }
-		})
-		var app7 = new Vue({
-		  el: '#app-7',
-		  data: {
-		    groceryList: [
-		      { text: 'Vegetables' },
-		      { text: 'Cheese' },
-		      { text: 'Whatever else humans are supposed to eat' }
-		    ]
-		  }
-		});
+    // 组件
+    Vue.component('todo-item', {
+        props: ['todo'],
+        template: '<li>{{ todo.text }} ==> {{a}}</li>',
+        data() { // 必须是函数
+            return {
+                a: 'AAA'
+            }
+        }
+    })
+    var app7 = new Vue({
+        el: '#app-7',
+        data: {
+            groceryList: [{
+                text: 'Vegetables'
+            }, {
+                text: 'Cheese'
+            }, {
+                text: 'Whatever else humans are supposed to eat'
+            }]
+        }
+    });
 
 
-		// component example
-		Vue.component('model-item', {
-			props: ['model'],
-			template : '<p> {{model.name }} ==> {{model.price}} </p>'
-		});
-		var app8 = new Vue({
-			el : '#modelComponent',
-			data : {
-				books : [
-					{ name : 'book1' , price : '120' },
-					{ name : 'book2' , price : '120' },
-					{ name : 'book3' , price : '120' }
-				]
-			}
-		});
-
-
-
-
-
-
-
+    // component example
+    Vue.component('model-item', {
+        props: ['model'],
+        template: '<p> {{model.name }} ==> {{model.price}} </p>'
+    });
+    var app8 = new Vue({
+        el: '#modelComponent',
+        data: {
+            books: [{
+                name: 'book1',
+                price: '120'
+            }, {
+                name: 'book2',
+                price: '120'
+            }, {
+                name: 'book3',
+                price: '120'
+            }]
+        }
+    });
 </script>
+
 </html>
