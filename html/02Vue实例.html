@@ -1,85 +1,89 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Vue实例</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
-<link href="" rel="stylesheet">
-</head>
-<body>
-	
-	<div id="example">333</div>
 
-	
-    
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Vue实例 002</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link href="" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="example">333</div>
+
+
+
 </body>
 <script type="text/javascript" src="../js/vue.js"></script>
 <script type="text/javascript">
-
-	// 构造器
-	var vm1 = new Vue({
-	  // 选项
-	});
-
-
-	var MyComponent = Vue.extend({
-	  // 扩展选项
-	});
-	// 所有的 `MyComponent` 实例都将以预定义的扩展选项被创建
-	var myComponentInstance = new MyComponent();
-	
+    // 构造器
+    var vm1 = new Vue({
+        // 选项
+    });
 
 
-	// 属性和方法
-	// 每个 Vue 实例都会代理其 data 对象里所有的属性：
-	var data = { a: 1 }
-	var vm2 = new Vue({
-	  data: data
-	})
-	console.log(vm2.a === data.a); // -> true
-	// 设置属性也会影响到原始数据
-	vm2.a = 2
-	console.log(data.a); // -> 2
-	// ... 反之亦然
-	data.a = 3
-	console.log(vm2.a); // -> 3
+    var MyComponent = Vue.extend({
+        // 扩展选项
+    });
+    // 所有的 `MyComponent` 实例都将以预定义的扩展选项被创建
+    var myComponentInstance = new MyComponent();
 
 
 
-
-	// 除了 data 属性， Vue 实例暴露了一些有用的实例属性与方法。这些属性与方法都有前缀 $，以便与代理的 data 属性区分。例如：
-	var data = { b: 1 }
-	var vm3 = new Vue({
-	  el: '#example',
-	  data: data
-	})
-	console.log(vm3.$data === data); // -> true
-	console.log(vm3.$el === document.getElementById('example')); // -> true
-	// $watch 是一个实例方法
-	vm3.$watch('b', function (newVal, oldVal) {
-	  // 这个回调将在 `vm.b`  改变后调用
-		console.log(vm3.$el.innerHTML);
-	})
+    // 属性和方法
+    // 每个 Vue 实例都会代理其 data 对象里所有的属性：
+    var data = {
+        a: 1
+    }
+    var vm2 = new Vue({
+        data: data
+    })
+    console.log(vm2.a === data.a); // -> true
+    // 设置属性也会影响到原始数据
+    vm2.a = 2
+    console.log(data.a); // -> 2
+    // ... 反之亦然
+    data.a = 3
+    console.log(vm2.a); // -> 3
 
 
 
 
+    // 除了 data 属性， Vue 实例暴露了一些有用的实例属性与方法。这些属性与方法都有前缀 $，以便与代理的 data 属性区分。例如：
+    var data = {
+        b: 1
+    }
+    var vm3 = new Vue({
+        el: '#example',
+        data: data
+    })
+    console.log(vm3.$data === data); // -> true
+    console.log(vm3.$el === document.getElementById('example')); // -> true
+    // $watch 是一个实例方法
+    vm3.$watch('b', function(newVal, oldVal) {
+        // 这个回调将在 `vm.b`  改变后调用
+        console.log(vm3.$el.innerHTML);
+    })
 
-	// 实例声明周期
-	var vm4 = new Vue({
-	  data: {
-	    a: 1
-	  },
-	  created: function () {
-	    // `this` 指向 vm 实例
-	    console.log('a is: ' + this.a)
-	  }
-	})
-	// -> "a is: 1"
 
 
+
+
+    // 实例声明周期
+    var vm4 = new Vue({
+            data: {
+                a: 1
+            },
+            created: function() {
+                // `this` 指向 vm 实例
+                console.log('a is: ' + this.a)
+            }
+        })
+        // -> "a is: 1"
 </script>
+
 </html>
